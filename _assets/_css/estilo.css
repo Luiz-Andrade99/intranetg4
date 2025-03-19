@@ -59,14 +59,13 @@ nav#menu a:hover{
 }
 
 /* Configuração do login */
-nav#login{
+nav#login_index{
     display: block;
-    text-align: right;
-    text-transform: uppercase;
-    text-wrap-mode: 10px;
+    text-align: center;
+    text-transform: uppercase
 }
 
-nav#login li{
+nav#login_index li{
     display: inline-block;
     background-color: #dddddd;
     padding: 10px;
@@ -75,20 +74,20 @@ nav#login li{
     
 }
 
-nav#login li:hover {
+nav#login_index li:hover {
     background-color: #606060;
 }
 
-nav#login h1{
+nav#login_index h1{
     display: none;
 }
 
-nav#login a{
+nav#login_index a{
     color: #000000;
     text-decoration: none;
 }
 
-nav#login a:hover{
+nav#login_indexn a:hover{
     color: #ffffff;
     text-decoration: none;
 }
