@@ -1,65 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suporte - Intranet G4</title>
-    <link rel="stylesheet" href="_assets/_css/estilo-principal.css">
+    <title>Suporte</title>
+    <link rel="stylesheet" href="_assets/_css/styles.css">
 </head>
 <body>
-
-    <div class="container">
-        <h2>CHAMADO TI</h2>
- 
-        <form id="suporteForm">
-            <label for="anydesk">anydesk:</label>
-            <input type="text" id="anydesk" required disabled>
-
-            <label for="descricao">Descrição seu problema:</label>
-            <textarea id="descricao" rows="4" required></textarea>
-
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-
-    <script src="_assets/_javascript/funcoes-chat.js"></script>
-    <script>
-        // Preencher os campos do formulário com o nome e e-mail do usuário logado
-        document.getElementById('nome').value = usuario.nome;
-        document.getElementById('email').value = usuario.email;
-
-        document.getElementById('suporteForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const descricao = document.getElementById('descricao').value;
-
-            // Enviar os dados para o backend (por exemplo, utilizando fetch)
-            fetch('/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nome: nome,
-                    email: email,
-                    descricao: descricao,
-                    destinatario: 'tecnologia@g4contabilidade.com.br',
-                    assunto: 'Solicitação de Suporte - Intranet G4'
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert("Sua solicitação de suporte foi enviada com sucesso! Nossa equipe entrará em contato em breve.");
-                document.getElementById('suporteForm').reset();
-            })
-            .catch(error => {
-                console.error('Erro ao enviar e-mail:', error);
-                alert("Houve um erro ao enviar sua solicitação. Tente novamente mais tarde.");
-            });
-        });
-    </script>
-
+    <h2>Solicitação de Suporte</h2>
+    <form id="support-form">
+        <label for="anydesk">Número do AnyDesk:</label>
+        <input type="text" id="anydesk" required>
+        <label for="problema">Descreva o problema:</label>
+        <textarea id="problema" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+    <script src="_assets/_js/script.js"></script>
 </body>
-</html>
+</html

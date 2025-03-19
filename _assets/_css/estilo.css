@@ -63,6 +63,7 @@ nav#login{
     display: block;
     text-align: right;
     text-transform: uppercase;
+    text-wrap-mode: 10px;
 }
 
 nav#login li{
