@@ -1,20 +1,97 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <link rel="stylesheet" href="_assets/_css/styles.css">
+    <title>Chat Skype</title>
+    <link rel="stylesheet" href="styles/chat-skype.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="salas" id="salas-lista"></div>
-        <div class="mensagens">
-            <div id="chat"></div>
-            <textarea id="mensagem" placeholder="Digite sua mensagem..."></textarea>
-            <button onclick="enviarMensagem()">Enviar</button>
+    <div id="chat-container">
+        <div id="chat-header">
+            <h2>Chat</h2>
+        </div>
+        <div id="messages"></div>
+        <div id="chat-input">
+            <input type="text" id="message" placeholder="Digite aqui">
+            <button id="send">➤</button>
         </div>
     </div>
-    <script src="_assets/_js/script.js"></script>
+
+    <script>
+    document.getElementById('send').addEventListener('click', function() {
+        const messageBox = document.getElementById('message');
+        const messageText = messageBox.value.trim();
+        if (messageText !== '') {
+            const messages = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.textContent = messageText;
+            messages.appendChild(messageElement);
+            messageBox.value = '';
+        }
+    });
+    </script>
 </body>
 </html>
+
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+}
+#chat-container {
+    width: 350px;
+    height: 500px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+#chat-header {
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+}
+.message {
+    background: #0078d7;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: fit-content;
+    color: white;
+}
+#chat-input {
+    display: flex;
+    background: #333;
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#chat-input input {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+#chat-input button {
+    background: #0078d7;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>

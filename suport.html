@@ -1,19 +1,50 @@
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suporte</title>
-    <link rel="stylesheet" href="_assets/_css/styles.css">
+    <link rel="stylesheet" href="styles/suport.css">
 </head>
 <body>
-    <h2>Solicitação de Suporte</h2>
-    <form id="support-form">
-        <label for="anydesk">Número do AnyDesk:</label>
-        <input type="text" id="anydesk" required>
-        <label for="problema">Descreva o problema:</label>
-        <textarea id="problema" required></textarea>
-        <button type="submit">Enviar</button>
+    <h1>Suporte Técnico</h1>
+    <form id="form-chamado">
+        <label for="nome">Nome do Solicitante:</label>
+        <input type="text" id="nome" name="nome" required>
+        
+        <label for="anydesk">Código do AnyDesk:</label>
+        <input type="text" id="anydesk" name="anydesk" required>
+        
+        <label for="descricao">Descrição do Problema:</label>
+        <input type="text" id="descricao" name="descricao" required>
+        
+        <button type="submit">Enviar Chamado</button>
     </form>
-    <script src="_assets/_js/script.js"></script>
+    
+    <script>
+    document.getElementById('form-chamado').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const nome = document.getElementById('nome').value;
+        const anydesk = document.getElementById('anydesk').value;
+        const descricao = document.getElementById('descricao').value;
+        
+        if (nome.trim() !== '' && anydesk.trim() !== '' && descricao.trim() !== '') {
+            const chamado = {
+                nome: nome,
+                anydesk: anydesk,
+                descricao: descricao
+            };
+            
+            let chamados = JSON.parse(localStorage.getItem('chamados')) || [];
+            chamados.push(chamado);
+            localStorage.setItem('chamados', JSON.stringify(chamados));
+            
+            document.getElementById('nome').value = '';
+            document.getElementById('anydesk').value = '';
+            document.getElementById('descricao').value = '';
+            
+            window.location.href = 'chamados.html';
+        }
+    });
+    </script>
 </body>
-</html
+</html>
