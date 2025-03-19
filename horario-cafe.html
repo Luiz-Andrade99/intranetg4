@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Horário de Café</title>
+    <style>
+        table {
+            width: 45%; /* Ajuste a largura para que caibam lado a lado */
+            border-collapse: collapse;
+            margin: 10px; /* Adiciona um espaço entre as tabelas */
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #tabelas-container {
+            display: flex; /* Usa flexbox para colocar as tabelas lado a lado */
+            flex-wrap: wrap; /* Permite quebrar a linha se houver muitas tabelas */
+            justify-content: space-between; /* Espalha as tabelas de forma equilibrada */
+        }
+    </style>
+</head>
+<body>
+    <!-- Tabelas serão inseridas aqui dinamicamente -->
+    <div id="tabelas-container"></div>
+
+    <script>
+        async function carregarDados() {
+            const url = "https://script.google.com/macros/s/AKfycbz_tEpkWnxNWxObHc2-HJkXrub37Y74HskIIMGEBAaTIIeGiefmAxvNwJ6UUvZ7PBovMA/exec"; // Substitua pela URL do Apps Script
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                // Divida os dados em partes de 22 registros
+                const chunkedData = chunkArray(data, 22);
+
+                // Crie as tabelas dinamicamente com base nos dados divididos
+                const container = document.getElementById("tabelas-container");
+                container.innerHTML = ""; // Limpa o container antes de adicionar novas tabelas
+
+                chunkedData.forEach((chunk, index) => {
+                    // Criar cada tabela
+                    const table = document.createElement("table");
+                    const thead = document.createElement("thead");
+                    const tbody = document.createElement("tbody");
+
+                    // Criar o cabeçalho da tabela
+                    const headerRow = document.createElement("tr");
+                    headerRow.innerHTML = `
+                        <th>Nome</th>
+                        <th>Café da Manhã</th>
+                        <th>Café da Tarde</th>
+                    `;
+                    thead.appendChild(headerRow);
+
+                    // Adicionar as linhas de dados à tabela
+                    chunk.forEach(item => {
+                        let cafeManha = formatarHorario(item.CafeManha);
+                        let cafeTarde = formatarHorario(item.CafeTarde);
+
+                        let row = `<tr>
+                            <td>${item.Nome}</td>
+                            <td>${cafeManha}</td>
+                            <td>${cafeTarde}</td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+
+                    // Adicionar o corpo e cabeçalho à tabela
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+
+                    // Adicionar a tabela ao container
+                    container.appendChild(table);
+                });
+            } catch (error) {
+                console.error("Erro ao carregar os dados:", error);
+            }
+        }
+
+        // Função para formatar o horário
+        function formatarHorario(hora) {
+            if (!hora) return "-";
+            
+            let date = new Date(hora);  // Converte o valor para um objeto Date
+            let horas = date.getHours().toString().padStart(2, '0');  // Horas com dois dígitos
+            let minutos = date.getMinutes().toString().padStart(2, '0');  // Minutos com dois dígitos
+
+            return `${horas}:${minutos}`;  // Exemplo: "08:30"
+        }
+
+        // Função para dividir o array em pedaços de tamanho específico (21 no caso)
+        function chunkArray(arr, size) {
+            let result = [];
+            for (let i = 0; i < arr.length; i += size) {
+                result.push(arr.slice(i, i + size));
+            }
+            return result;
+        }
+
+        carregarDados();
+    </script>
+</body>
+</html>

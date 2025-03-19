@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+/* CONFIG DO CORPO DA PAG */
+body {
+    background-color: rgba(255, 255, 255, 0.425);
+    color: rgb(20, 20, 20);
+    margin: 50px;
+    font-family: Arial;
+}
+
+/* CONFIG TOPO DA PAG */
+#interface {
+    text-align: center;
+    margin: auto;
+}
+
+#cabecalho h1 {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#logo-g4 {
+    margin:auto; 
+    text-align: center;
+}
+
+/* Configuração do menu */
+nav#menu{
+    display: block;
+    text-align: center;
+    text-transform: uppercase
+}
+
+nav#menu li{
+    display: inline-block;
+    background-color: #dddddd;
+    padding: 20px;
+    margin: 2px;
+    transition: background-color 1s;
+    
+}
+
+nav#menu li:hover {
+    background-color: #606060;
+}
+
+nav#menu h1{
+    display: none;
+}
+
+nav#menu a{
+    color: #000000;
+    text-decoration: none;
+}
+
+nav#menu a:hover{
+    color: #ffffff;
+    text-decoration: none;
+}
