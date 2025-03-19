@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Intranet G4</title>
+    <link rel="stylesheet" href="../_assets/_css/estilo-principal.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Cadastro</h2>
+        <form id="cadastroForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" required>
+
+            <label for="confirmarSenha">Confirmar Senha:</label>
+            <input type="password" id="confirmarSenha" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+    </div>
+
+    <script src="/_assets/_javascript/funcoes-chat.js"></script>
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+            if (senha !== confirmarSenha) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            alert("Cadastro realizado com sucesso!");
+            window.location.href = "login.html";
+        });
+    </script>
+
+</body>
+</html>

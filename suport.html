@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte - Intranet G4</title>
+    <link rel="stylesheet" href="_assets/_css/estilo-principal.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Suporte</h2>
+        <p>Se você tiver algum problema, por favor, preencha o formulário abaixo para entrar em contato com nossa equipe de suporte:</p>
+        
+        <form id="suporteForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" required>
+
+            <label for="descricao">Descrição do Problema:</label>
+            <textarea id="descricao" rows="4" required></textarea>
+
+            <button type="submit">Enviar Solicitação</button>
+        </form>
+    </div>
+
+    <script src="_assets/_javascript/funcoes-chat.js"></script>
+    <script>
+        document.getElementById('suporteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const descricao = document.getElementById('descricao').value;
+
+            // Aqui você pode adicionar um código para salvar as informações no banco de dados ou enviar um e-mail
+            alert("Sua solicitação de suporte foi enviada com sucesso! Nossa equipe entrará em contato em breve.");
+
+            // Limpar o formulário após o envio
+            document.getElementById('suporteForm').reset();
+        });
+    </script>
+
+</body>
+</html>

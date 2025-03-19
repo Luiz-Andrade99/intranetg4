@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Intranet G4</title>
+    <link rel="stylesheet" href="../_assets/_css/estilo-principal.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Ainda não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+
+    <script src="../_assets/_javascript/funcoes-chat.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+
+            if (email === "admin@g4.com" && senha === "123456") {
+                alert("Login bem-sucedido!");
+                window.location.href = "../index.html";
+            } else {
+                alert("E-mail ou senha inválidos!");
+            }
+        });
+    </script>
+
+</body>
+</html>
