@@ -3,44 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Interno</title>
-    <link rel="stylesheet" href="_css/estilo-chat.css">
+    <title>Chat Skype</title>
+    <link rel="stylesheet" href="styles/chat-skype.css">
 </head>
 <body>
-
-    <div class="chat-container">
-        <h2>Chat Skype Like</h2>
-
-        <!-- Seção de login -->
-        <div id="user-section">
-            <label for="username">Nome de usuário:</label>
-            <input type="text" id="username" placeholder="Digite seu nome" />
-            <button id="set-username-btn">Entrar</button>
+    <div id="chat-container">
+        <div id="chat-header">
+            <h2>Chat</h2>
         </div>
-
-        <!-- Seção de lista de salas de chat -->
-        <div id="room-section" style="display: none;">
-            <label for="room">Escolha uma sala:</label>
-            <select id="room">
-                <option value="Sala 1">Sala 1</option>
-                <option value="Sala 2">Sala 2</option>
-                <option value="Sala 3">Sala 3</option>
-            </select>
-            <button id="enter-room-btn">Entrar na Sala</button>
+        <div id="messages"></div>
+        <div id="chat-input">
+            <input type="text" id="message" placeholder="Digite aqui">
+            <button id="send">➤</button>
         </div>
-
-        <!-- Área de mensagens -->
-        <div class="messages" id="message-container" style="display: none;">
-            <div id="chat-name"></div> <!-- Nome da sala -->
-            <!-- Mensagens serão exibidas aqui -->
-        </div>
-
-        <!-- Campo de entrada de mensagem -->
-        <textarea id="message-input" class="message-input" rows="3" placeholder="Digite sua mensagem..."></textarea>
-        <button id="send-btn" class="send-btn">Enviar</button>
     </div>
 
-    <script src="_javascript/funcoes-chat.js"></script>
-
+    <script>
+    document.getElementById('send').addEventListener('click', function() {
+        const messageBox = document.getElementById('message');
+        const messageText = messageBox.value.trim();
+        if (messageText !== '') {
+            const messages = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.textContent = messageText;
+            messages.appendChild(messageElement);
+            messageBox.value = '';
+        }
+    });
+    </script>
 </body>
 </html>
+
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+}
+#chat-container {
+    width: 350px;
+    height: 500px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+#chat-header {
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+}
+.message {
+    background: #0078d7;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: fit-content;
+    color: white;
+}
+#chat-input {
+    display: flex;
+    background: #333;
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#chat-input input {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+}
+#chat-input button {
+    background: #0078d7;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>

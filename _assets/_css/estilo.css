@@ -57,3 +57,38 @@ nav#menu a:hover{
     color: #ffffff;
     text-decoration: none;
 }
+
+/* Configuração do login */
+nav#login{
+    display: block;
+    text-align: right;
+    text-transform: uppercase;
+    text-wrap-mode: 10px;
+}
+
+nav#login li{
+    display: inline-block;
+    background-color: #dddddd;
+    padding: 10px;
+    margin: 2px;
+    transition: background-color 1s;
+    
+}
+
+nav#login li:hover {
+    background-color: #606060;
+}
+
+nav#login h1{
+    display: none;
+}
+
+nav#login a{
+    color: #000000;
+    text-decoration: none;
+}
+
+nav#login a:hover{
+    color: #ffffff;
+    text-decoration: none;
+}
