@@ -1,6 +1,6 @@
 <?php
-require_once '../includes/conexao.php';
-require_once '../includes/funcoes.php';
+require_once '../_includes/conexao.php';
+require_once '../_includes/funcoes.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
