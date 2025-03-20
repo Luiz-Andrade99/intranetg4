@@ -3,7 +3,7 @@
 $host = "localhost"; // Altere se necessário
 $usuario = "root"; // Usuário do banco de dados
 $senha = ""; // Senha do banco de dados
-$banco = "intranet.db"; // Nome do banco de dados
+$banco = "usuarios.sql"; // Nome do banco de dados
 
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
