@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chamados</title>
-    <link rel="stylesheet" href="_assets/_css/estilo.css">  <style>
+    <link rel="stylesheet" href="_assets/_css/estilo.css">
+    <style>
         table {
             width: 100%;
             border-collapse: collapse;
@@ -29,43 +30,40 @@
                 <th>E-mail</th>
                 <th>AnyDesk</th>
                 <th>Problema</th>
-                <th>Data/Hora</th> <th>Status</th>    </tr>
+                <th>Data/Hora</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
             <?php
-            // --- CONEXÃO COM O BANCO DE DADOS ---
-            $servername = "localhost";
-            $username = "seu_usuario"; // SUBSTITUA
-            $password = "sua_senha"; // SUBSTITUA
-            $dbname = "seu_banco_de_dados"; // SUBSTITUA
+            require_once '_user/conexao.php'; // Usa o novo arquivo de conexão
+            require_once 'includes/funcoes.php'; // Inclui as funções
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
+            $conn = conectarBanco(); // Usa a função de conexão
 
-            if ($conn->connect_error) {
-                die("Falha na conexão: " . $conn->connect_error);
-            }
+            if ($conn) {
+                $sql = "SELECT nome, email, anydesk, descricao, data_abertura, status FROM chamados ORDER BY data_abertura DESC";
+                $result = $conn->query($sql);
 
-            // --- CONSULTA SQL PARA OBTER OS CHAMADOS ---
-            $sql = "SELECT nome, email, anydesk, descricao, data_abertura, status FROM chamados ORDER BY data_abertura DESC"; // Ordena por data (mais recente primeiro)
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
-                // --- EXIBE OS CHAMADOS NA TABELA ---
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row["nome"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["anydesk"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["descricao"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["data_abertura"]) . "</td>"; // Exibe a data
-                    echo "<td>" . htmlspecialchars($row["status"]) . "</td>";      // Exibe o status
-                    echo "</tr>";
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row["nome"]) . "</td>";       // XSS CORRIGIDO
+                        echo "<td>" . htmlspecialchars($row["email"]) . "</td>";      // XSS CORRIGIDO
+                        echo "<td>" . htmlspecialchars($row["anydesk"]) . "</td>";    // XSS CORRIGIDO
+                        echo "<td>" . htmlspecialchars($row["descricao"]) . "</td>";  // XSS CORRIGIDO
+                        echo "<td>" . htmlspecialchars($row["data_abertura"]) . "</td>"; // XSS CORRIGIDO
+                        echo "<td>" . htmlspecialchars($row["status"]) . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>Nenhum chamado encontrado.</td></tr>";
                 }
+                $conn->close();
             } else {
-                echo "<tr><td colspan='6'>Nenhum chamado encontrado.</td></tr>";
+                echo "<tr><td colspan='6'>Erro ao conectar ao banco de dados.</td></tr>";
             }
 
-            $conn->close();
             ?>
         </tbody>
     </table>

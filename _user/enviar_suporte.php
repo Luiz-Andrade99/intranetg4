@@ -1,62 +1,63 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Função para escapar dados para evitar XSS e injeção de SQL (versão básica)
-function escape($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    return $data;
-}
-
+session_start(); // Inicia a sessão
+require_once '../includes/conexao.php'; // Inclui a conexão
+require_once '../includes/funcoes.php'; // Inclui funções
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recebe os dados do formulário e aplica a função de escape
-    $nome = isset($_POST["nome"]) ? escape($_POST["nome"]) : '';
-    $email = isset($_POST["email"]) ? escape($_POST["email"]) : '';
-    $anydesk = isset($_POST["anydesk"]) ? escape($_POST["anydesk"]) : '';
-    $problema = isset($_POST["descricao"]) ? escape($_POST["descricao"]) : '';
 
-    // Validação básica (pode e deve ser expandida)
-    if (empty($nome) || empty($email) || empty($anydesk) || empty($problema)) {
-        echo "Erro: Todos os campos são obrigatórios.";
-        exit; // Interrompe a execução se houver campos vazios
+    // Verifica o token CSRF
+    if (!verificarTokenCSRF($_POST['csrf_token'])) {
+        die("Erro de segurança: Token CSRF inválido."); // Ou trate de forma mais elegante
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Erro: Endereço de e-mail inválido.";
-        exit;
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $anydesk = $_POST["anydesk"];
+    $descricao = $_POST["descricao"];
+
+    // Validação (expandida)
+    $erros = [];
+    if (empty($nome)) {
+        $erros[] = "O nome é obrigatório.";
+    }
+    if (empty($email) || !validarEmail($email)) {
+        $erros[] = "E-mail inválido.";
+    }
+    if (empty($anydesk)) {
+        $erros[] = "O AnyDesk é obrigatório.";
+    }
+    if (empty($descricao)) {
+        $erros[] = "A descrição é obrigatória.";
     }
 
-    // --- CONEXÃO COM O BANCO DE DADOS (MySQLi - Orientado a Objetos) ---
-    $servername = "localhost";
-    $username = "root"; // SUBSTITUA PELO SEU USUÁRIO
-    $password = "";    // SUBSTITUA PELA SUA SENHA
-    $dbname = "intranet.db";    // SUBSTITUA PELO NOME DO SEU BANCO
+    if (empty($erros)) {
+        $conn = conectarBanco();
+        if ($conn) {
+            // Prepared Statement
+            $stmt = $conn->prepare("INSERT INTO chamados (nome, email, anydesk, descricao) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nome, $email, $anydesk, $descricao);
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Falha na conexão: " . $conn->connect_error); // Em produção, trate o erro melhor
+            if ($stmt->execute()) {
+                header("Location: ../chamados.html");
+                exit();
+            } else {
+                 error_log("Erro ao inserir chamado: " . $stmt->error); //LOG
+                 $erros[] = "Erro ao abrir o chamado. Tente novamente."; //Mensagem amigável
+            }
+            $stmt->close();
+            $conn->close();
+        } else {
+             $erros[] = "Erro ao conectar ao banco."; //Mensagem amigável
+        }
     }
 
-    // --- PREPARED STATEMENT (para evitar injeção de SQL) ---
-    $stmt = $conn->prepare("INSERT INTO chamados (nome, email, anydesk, descricao) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $nome, $email, $anydesk, $problema); // "ssss" indica 4 strings
-
-    if ($stmt->execute()) {
-        // --- SUCESSO: Redireciona para chamados.html ---
-        header("Location: ../chamados.html"); // Caminho relativo correto
-        exit();
-    } else {
-        echo "Erro ao abrir o chamado: " . $stmt->error;  // Em produção, trate o erro de forma mais elegante
-    }
-
-    $stmt->close();
-    $conn->close();
-
+     // Se houver erros, eles serão exibidos no formulário (você precisa adicionar a exibição no HTML)
+    $_SESSION['erros'] = $erros;
+    $_SESSION['dados_antigos'] = $_POST; // Armazena os dados antigos para preencher o formulário novamente
+    header("Location: ../suport.html"); // Redireciona de volta para o formulário
+    exit();
 } else {
-    echo "Acesso inválido."; // Se a página for acessada diretamente (não via POST)
+     header("Location: ../suport.html"); //Redirecionar se acesso não for POST
+     exit;
 }
 ?>

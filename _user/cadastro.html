@@ -3,21 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="_assets/_css/estilo.css">
+    <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="../_assets/_css/estilo.css">
 </head>
 <body>
-    <div id="cadastro">
-        <h2>Cadastro de Usuário</h2>
-        <form action="_assets/_user/processa_cadastro.php" method="POST">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+<div id="cadastro">
+    <h2>Cadastro</h2>
+    <?php
+    session_start();
+     require_once '../includes/funcoes.php'; //Inclui as funções
 
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
+    // Exibe mensagens de erro, se houver
+    if (isset($_SESSION['erros_cadastro']) && !empty($_SESSION['erros_cadastro'])) {
+        echo '<div class="erros">';
+        foreach ($_SESSION['erros_cadastro'] as $erro) {
+            echo '<p>' . htmlspecialchars($erro) . '</p>';
+        }
+        echo '</div>';
+        unset($_SESSION['erros_cadastro']); // Limpa os erros
+    }
 
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
+    // Recupera os dados antigos
+    $dados_antigos = isset($_SESSION['dados_antigos_cadastro']) ? $_SESSION['dados_antigos_cadastro'] : [];
+    unset($_SESSION['dados_antigos_cadastro']); //Limpa os dados antigos.
 
-            <button type="submit">Cadastrar</button>
-       
+    ?>
+
+    <form action="processa_cadastro.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?php echo gerarTokenCSRF(); ?>">
+
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="<?php echo isset($dados_antigos['nome']) ? htmlspecialchars($dados_antigos['nome']) : ''; ?>" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" value="<?php echo isset($dados_antigos['email']) ? htmlspecialchars($dados_antigos['email']) : ''; ?>" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <label for="confirmar_senha">Confirmar Senha:</label>
+        <input type="password" id="confirmar_senha" name="confirmar_senha" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+    <a href="login.html">Já tem conta? Faça login</a>
+</div>
+
+</body>
+</html>
