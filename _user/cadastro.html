@@ -10,22 +10,12 @@
 <div id="cadastro">
     <h2>Cadastro</h2>
     <?php
-    session_start();
-     require_once '../includes/funcoes.php'; //Inclui as funções
-
-    // Exibe mensagens de erro, se houver
-    if (isset($_SESSION['erros_cadastro']) && !empty($_SESSION['erros_cadastro'])) {
-        echo '<div class="erros">';
-        foreach ($_SESSION['erros_cadastro'] as $erro) {
-            echo '<p>' . htmlspecialchars($erro) . '</p>';
-        }
-        echo '</div>';
-        unset($_SESSION['erros_cadastro']); // Limpa os erros
-    }
+      require_once '../includes/funcoes.php'; //Inclui as funções
+      exibirMensagens(); // Exibe mensagens
 
     // Recupera os dados antigos
     $dados_antigos = isset($_SESSION['dados_antigos_cadastro']) ? $_SESSION['dados_antigos_cadastro'] : [];
-    unset($_SESSION['dados_antigos_cadastro']); //Limpa os dados antigos.
+    unset($_SESSION['dados_antigos_cadastro']);
 
     ?>
 

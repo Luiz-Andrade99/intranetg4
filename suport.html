@@ -11,23 +11,12 @@
         <h2>CHAMADO</h2>
 
         <?php
-        session_start();
-        require_once 'includes/funcoes.php';
+        require_once 'includes/funcoes.php'; //Inclui as funções
+        exibirMensagens(); // Exibe mensagens
 
-        // Exibe mensagens de erro, se houver
-        if (isset($_SESSION['erros']) && !empty($_SESSION['erros'])) {
-            echo '<div class="erros">';
-            foreach ($_SESSION['erros'] as $erro) {
-                echo '<p>' . htmlspecialchars($erro) . '</p>';
-            }
-            echo '</div>';
-            unset($_SESSION['erros']); // Limpa os erros após exibir
-        }
-
-        // Recupera os dados antigos do formulário, se houver
+        // Recupera os dados antigos do formulário, se houver.  Agora feito pela função exibirMensagens
         $dadosAntigos = isset($_SESSION['dados_antigos']) ? $_SESSION['dados_antigos'] : [];
         unset($_SESSION['dados_antigos']); // Limpa os dados antigos
-
         ?>
 
         <form action="_user/enviar_suporte.php" method="POST">
