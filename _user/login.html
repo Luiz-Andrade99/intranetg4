@@ -10,7 +10,7 @@
         <h2>Login</h2>
         <?php
           session_start();
-          require_once '../includes/funcoes.php';
+          require_once '../_includes/funcoes.php';
 
           if (isset($_SESSION['erros_login']) && !empty($_SESSION['erros_login'])) {
               echo '<div class="erros">';
