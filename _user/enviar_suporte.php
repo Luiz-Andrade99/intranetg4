@@ -31,9 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // --- CONEXÃO COM O BANCO DE DADOS (MySQLi - Orientado a Objetos) ---
     $servername = "localhost";
-    $username = "seu_usuario"; // SUBSTITUA PELO SEU USUÁRIO
-    $password = "sua_senha";    // SUBSTITUA PELA SUA SENHA
-    $dbname = "seu_banco_de_dados";    // SUBSTITUA PELO NOME DO SEU BANCO
+    $username = "root"; // SUBSTITUA PELO SEU USUÁRIO
+    $password = "";    // SUBSTITUA PELA SUA SENHA
+    $dbname = "intranet.db";    // SUBSTITUA PELO NOME DO SEU BANCO
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
