@@ -4,17 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chamados</title>
-    <link rel="stylesheet" href="_assets/_css/styles.css">
+    <link rel="stylesheet" href="_assets/_css/estilo.css">  <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h2>Chamados Abertos</h2>
-    <table border="1">
-        <tr>
-            <th>AnyDesk</th>
-            <th>Problema</th>
-        </tr>
-        <tbody id="chamados-list"></tbody>
+    <h1>Chamados</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>AnyDesk</th>
+                <th>Problema</th>
+                <th>Data/Hora</th> <th>Status</th>    </tr>
+        </thead>
+        <tbody>
+            <?php
+            // --- CONEXÃO COM O BANCO DE DADOS ---
+            $servername = "localhost";
+            $username = "seu_usuario"; // SUBSTITUA
+            $password = "sua_senha"; // SUBSTITUA
+            $dbname = "seu_banco_de_dados"; // SUBSTITUA
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            if ($conn->connect_error) {
+                die("Falha na conexão: " . $conn->connect_error);
+            }
+
+            // --- CONSULTA SQL PARA OBTER OS CHAMADOS ---
+            $sql = "SELECT nome, email, anydesk, descricao, data_abertura, status FROM chamados ORDER BY data_abertura DESC"; // Ordena por data (mais recente primeiro)
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                // --- EXIBE OS CHAMADOS NA TABELA ---
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row["nome"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["email"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["anydesk"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["descricao"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["data_abertura"]) . "</td>"; // Exibe a data
+                    echo "<td>" . htmlspecialchars($row["status"]) . "</td>";      // Exibe o status
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>Nenhum chamado encontrado.</td></tr>";
+            }
+
+            $conn->close();
+            ?>
+        </tbody>
     </table>
-    <script src="_assets/_js/script.js"></script>
+    <a href="suport.html">Abrir novo Chamado</a>
 </body>
 </html>

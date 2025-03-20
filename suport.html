@@ -10,8 +10,15 @@
     <div id="suporte">
         <h2>CHAMADO</h2>
         <form action="_user/enviar_suporte.php" method="POST">
+
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
             <label for="anydesk">ANYDESK:</label>
-            <input type="text" id="anydesk" name="anydesk" text-align:center required>
+            <input type="text" id="anydesk" name="anydesk" required>
 
             <label for="descricao">Descrição do Problema:</label>
             <textarea id="descricao" name="descricao" required></textarea>
